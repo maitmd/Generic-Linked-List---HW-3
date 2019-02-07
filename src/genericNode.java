@@ -1,32 +1,34 @@
 
 public class genericNode <T> {
 	
-	private int nodeData;
+	private T nodeData;
 	private genericNode<T> nodeLink;
 	
-	public genericNode(int data, genericNode<T> link){
+	public genericNode(T data, genericNode<T> link){
 		nodeData = data;
 		nodeLink = link;
 	}
 	
-	public genericNode<T> addNodeAfter(int element){
-		genericNode<T> newNode = new genericNode<T>(element, nodeLink); //creating new node
-		nodeLink = newNode; //replacing current linked node with new node
+	public genericNode<T> addNodeAfter(T element){
+		nodeLink = new genericNode<T>(element, nodeLink);
 		
 		return nodeLink;
 	}
 	
-	public genericNode<T> removeNodeAfer(int element){
+	public boolean removeNodeAfer(){
 		
 		genericNode<T> temp = nodeLink;
-		nodeLink =  nodeLink.getLink();
 		
-		return temp;
+		if(nodeLink != null){
+			nodeLink = nodeLink.getLink();
+		}
+		
+		return temp != nodeLink;
 	}
 	
-	public int listLength(genericNode<T> head){//Idk how what making this static does
+	public int getListLength(genericNode<T> head){
 		genericNode<T> cursor = head;
-		int length = 0;
+		int length = 1;
 		while(cursor.getLink() != null){
 			length++;
 			cursor = cursor.getLink();
@@ -35,9 +37,9 @@ public class genericNode <T> {
 		return length;
 	}
 	
-	public static int listSLength(genericNode<?> head){//but I did it.
-		genericNode<?> cursor = head;
-		int length = 0;
+	public static <T> int listLength(genericNode<T> head){
+		genericNode<T> cursor = head;
+		int length = 1;
 		while(cursor.getLink() != null){
 			length++;
 			cursor = cursor.getLink();
@@ -46,7 +48,7 @@ public class genericNode <T> {
 		return length;
 	}
 	
-	public boolean listSearch(genericNode<T> head, T target){ 
+	public static <T> boolean listSearch (genericNode<T> head, T target){ 
 		genericNode<T> cursor;
 		
 		for(cursor = head; cursor.getLink() != null; cursor = cursor.getLink()){
@@ -58,7 +60,28 @@ public class genericNode <T> {
 		return false;
 	}
 
-	public int getData(){
+	public static <T> genericNode<T> nodeAt(genericNode<T> node, int position){
+		int i = 1;
+		genericNode<T> cursor = node;
+		
+			while((i < position) && (cursor != null)){
+				i++;
+				cursor = cursor.getLink();
+			}
+			
+			return cursor;
+	}
+	
+	public void displayData(){
+		genericNode<T> cursor;
+		
+		for(cursor = this; cursor.getLink() != null; cursor = cursor.getLink()){
+			System.out.println(cursor.getData());
+		}
+		System.out.println(cursor.getData());
+	}
+	
+	public T getData(){
 		return nodeData;
 	}
 	
@@ -66,7 +89,7 @@ public class genericNode <T> {
 		return nodeLink;
 	}
 	
-	public void setData(int data){
+	public void setData(T data){
 		nodeData = data;
 	}
 	
